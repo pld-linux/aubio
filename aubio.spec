@@ -22,8 +22,8 @@ BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 aubio is a library for audio labelling
 
 %package devel
-Summary:	Header files for FOO library
-Summary(pl.UTF-8):	Pliki nagłówkowe biblioteki FOO
+Summary:	Header files for aubio library
+Summary(pl.UTF-8):	Pliki nagłówkowe biblioteki aubio
 Group:		Development/Libraries
 Requires:	%{name} = %{version}-%{release}
 
