@@ -1,6 +1,8 @@
 # TODO:
 #	- unpackaged /usr/share/sounds/aubio/woodblock.aiff
 #	- package python stuff
+#	- create lash.spec (http://www.nongnu.org/lash) and
+#	  --enable-lash
 #
 Summary:	aubio is a library for audio labelling
 Name:		aubio
@@ -51,8 +53,7 @@ Statyczna biblioteka aubio.
 %build
 %configure \
 	--enable-alsa \
-	--enable-jack \
-	--enable-lash
+	--enable-jack
 
 %{__make}
 
