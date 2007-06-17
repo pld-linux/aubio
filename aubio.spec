@@ -47,6 +47,21 @@ Static aubio library.
 %description static -l pl.UTF-8
 Statyczna biblioteka aubio.
 
+%package progs
+Summary:	Example applications using aubio library
+Group:		Applications
+Requires:	%{name} = %{version}-%{release}
+
+%description progs
+A few examples of applications using aubio library:
+- aubioonset: outputs the onset detected
+- aubionotes: uses both onset and pitch to extract symbolic music data
+    from an audio source and emit MIDI like data.
+- aubiocut: a python script that takes an input sound and creates one
+    new sample at each detected onset or beat. The slices produced by
+    aubiocut are useful for use with a sequencer such as Hydrogen.
+- aubiopitch: a python script to extract pitch tracks from sound files
+
 %prep
 %setup -q
 
@@ -76,7 +91,6 @@ rm -rf $RPM_BUILD_ROOT
 %files
 %defattr(644,root,root,755)
 %doc AUTHORS ChangeLog NEWS README THANKS TODO
-%attr(755,root,root) %{_bindir}/*
 %attr(755,root,root) %{_libdir}/lib*.so.*.*.*
 
 %files devel
@@ -89,3 +103,7 @@ rm -rf $RPM_BUILD_ROOT
 %files static
 %defattr(644,root,root,755)
 %{_libdir}/lib*.a
+
+%files progs
+%defattr(644,root,root,755)
+%attr(755,root,root) %{_bindir}/*
