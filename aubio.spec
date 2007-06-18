@@ -3,6 +3,7 @@
 #	- python package NFY (_aubiowrapper.a in sitescriptdir?)
 #	- create lash.spec (http://www.nongnu.org/lash) and
 #	  --enable-lash
+#	- package doc and create audacity-plugin
 #
 # Conditional build:
 %bcond_with	python  # build python bindings
