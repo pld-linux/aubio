@@ -1,8 +1,11 @@
 # TODO:
 #	- unpackaged /usr/share/sounds/aubio/woodblock.aiff
-#	- package python stuff
+#	- python package NFY (_aubiowrapper.a in sitescriptdir?)
 #	- create lash.spec (http://www.nongnu.org/lash) and
 #	  --enable-lash
+#
+# Conditional build:
+%bcond_with	python  # build python bindings
 #
 Summary:	aubio is a library for audio labelling
 Name:		aubio
@@ -18,6 +21,10 @@ BuildRequires:	fftw3-single-devel
 BuildRequires:	jack-audio-connection-kit-devel
 BuildRequires:	libsamplerate-devel
 BuildRequires:	libsndfile-devel
+%if %{with python}
+BuildRequires:	python-devel
+BuildRequires:	swig-python
+%endif
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
 %description
@@ -62,6 +69,14 @@ A few examples of applications using aubio library:
     aubiocut are useful for use with a sequencer such as Hydrogen.
 - aubiopitch: a python script to extract pitch tracks from sound files
 
+%package -n python-aubio
+Summary:	aubio python bindings
+Group:		Libraries/Python
+Requires:	%{name} = %{version}-%{release}
+
+%description -n python-aubio
+aubio python bindings.
+
 %prep
 %setup -q
 
@@ -77,10 +92,6 @@ rm -rf $RPM_BUILD_ROOT
 
 %{__make} install \
 	DESTDIR=$RPM_BUILD_ROOT
-
-rm -rf $RPM_BUILD_ROOT/%{py_sitedir}
-rm -rf $RPM_BUILD_ROOT/%{py_libdir}
-rm -rf $RPM_BUILD_ROOT/%{py_scriptdir}
 
 %clean
 rm -rf $RPM_BUILD_ROOT
@@ -106,4 +117,14 @@ rm -rf $RPM_BUILD_ROOT
 
 %files progs
 %defattr(644,root,root,755)
-%attr(755,root,root) %{_bindir}/*
+%attr(755,root,root) %{_bindir}/aubionotes
+%attr(755,root,root) %{_bindir}/aubioonset
+%attr(755,root,root) %{_bindir}/aubiotrack
+%if %{with python}
+%attr(755,root,root) %{_bindir}/aubiocut
+%attr(755,root,root) %{_bindir}/aubiopitch
+%endif
+
+%files -n python-aubio
+%defattr(644,root,root,755)
+%{py_sitescriptdir}/aubio
