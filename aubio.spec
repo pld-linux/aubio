@@ -8,7 +8,8 @@
 # Conditional build:
 %bcond_with	python  # build python bindings
 #
-Summary:	aubio is a library for audio labelling
+Summary:	aubio - library for audio labelling
+Summary(pl.UTF-8):	aubio - biblioteka do oznaczania dźwięku
 Name:		aubio
 Version:	0.3.2
 Release:	0.1
@@ -29,7 +30,10 @@ BuildRequires:	swig-python
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
 %description
-aubio is a library for audio labelling
+aubio is a library for audio labelling.
+
+%description -l pl.UTF-8
+aubio to biblioteka do oznaczania dźwięku.
 
 %package devel
 Summary:	Header files for aubio library
@@ -57,26 +61,45 @@ Statyczna biblioteka aubio.
 
 %package progs
 Summary:	Example applications using aubio library
-Group:		Applications
+Summary(pl.UTF-8):	Przykładowe programy korzystajace z biblioteki aubio
+Group:		Applications/Sound
 Requires:	%{name} = %{version}-%{release}
 
 %description progs
 A few examples of applications using aubio library:
-- aubioonset: outputs the onset detected
+- aubioonset: outputs the onset detected.
 - aubionotes: uses both onset and pitch to extract symbolic music data
     from an audio source and emit MIDI like data.
-- aubiocut: a python script that takes an input sound and creates one
+- aubiocut: a Python script that takes an input sound and creates one
     new sample at each detected onset or beat. The slices produced by
     aubiocut are useful for use with a sequencer such as Hydrogen.
-- aubiopitch: a python script to extract pitch tracks from sound files
+- aubiopitch: a Python script to extract pitch tracks from sound
+  files.
+
+%description progs -l pl.UTF-8
+Kilka przykładowych aplikacji korzystających z biblioteki dubio:
+- aubioonset - wypisuje wykryty początek.
+- aubionotes - wykorzystuje początek i wysokość do wyciągnięcia
+  symbolicznych danych muzycznych ze źródła dźwięku i stworzenia
+  danych typu MIDI.
+- aubiocut - skrypt Pythona pobierający dźwięk wejściowy i tworzący
+  nową próbkę dla każdego wykrytego początku lub taktu. Fragmenty
+  tworzone przez aubiocut są przydatne do wykorzystania przez
+  sekwencer, jak np. Hydrogen.
+- aubiopitch - skrypt Pythona do wyciągania ścieżek wysokości z
+  plików dźwiękowych.
 
 %package -n python-aubio
-Summary:	aubio python bindings
+Summary:	aubio Python bindings
+Summary(pl.UTF-8):	Wiązania Pythona do biblioteki aubio
 Group:		Libraries/Python
 Requires:	%{name} = %{version}-%{release}
 
 %description -n python-aubio
-aubio python bindings.
+aubio Python bindings.
+
+%description -n python-aubio -l pl.UTF-8
+Wiązania Pythona do biblioteki aubio.
 
 %prep
 %setup -q
