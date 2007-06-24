@@ -1,12 +1,10 @@
 # TODO:
-#	- unpackaged /usr/share/sounds/aubio/woodblock.aiff
-#	- python package NFY (_aubiowrapper.a in sitescriptdir?)
 #	- create lash.spec (http://www.nongnu.org/lash) and
 #	  --enable-lash
 #	- package doc and create audacity-plugin
 #
 # Conditional build:
-%bcond_with	python  # build python bindings
+%bcond_without	python  # python bindings
 #
 Summary:	aubio - library for audio labelling
 Summary(pl.UTF-8):	aubio - biblioteka do oznaczania dźwięku
@@ -17,14 +15,23 @@ License:	GPL v2+
 Group:		Libraries
 Source0:	http://aubio.piem.org/pub/%{name}-%{version}.tar.gz
 # Source0-md5:	ffc3e5e4880fec67064f043252263a44
+Patch0:		%{name}-python.patch
 URL:		http://aubio.piem.org/
-BuildRequires:	alsa-lib-devel
-BuildRequires:	fftw3-single-devel
-BuildRequires:	jack-audio-connection-kit-devel
-BuildRequires:	libsamplerate-devel
-BuildRequires:	libsndfile-devel
+BuildRequires:	alsa-lib-devel >= 0.9.0
+BuildRequires:	autoconf >= 2.50
+BuildRequires:	automake
+BuildRequires:	fftw3-single-devel >= 3.0.0
+BuildRequires:	jack-audio-connection-kit-devel >= 0.15.0
+#BuildRequires:	lash-devel >= 0.5.0 (lash-1.0.pc)
+BuildRequires:	libsamplerate-devel >= 0.0.15
+BuildRequires:	libsndfile-devel >= 1.0.4
+BuildRequires:	libtool
+BuildRequires:	pkgconfig
+#BuildRequires:	puredata-devel (m_pd.h)
 %if %{with python}
 BuildRequires:	python-devel
+BuildRequires:	rpm-pythonprov
+BuildRequires:	rpmbuild(macros) >= 1.219
 BuildRequires:	swig-python
 %endif
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
@@ -40,6 +47,12 @@ Summary:	Header files for aubio library
 Summary(pl.UTF-8):	Pliki nagłówkowe biblioteki aubio
 Group:		Development/Libraries
 Requires:	%{name} = %{version}-%{release}
+Requires:	fftw3-single-devel >= 3.0.0
+Requires:	libsamplerate-devel >= 0.0.15
+# for libaubioext:
+# alsa-lib-devel >= 0.9.0
+# jack-audio-connection-kit-devel >= 0.15.0
+# libsndfile-devel >= 1.0.4
 
 %description devel
 Header files for aubio library.
@@ -103,8 +116,14 @@ Wiązania Pythona do biblioteki aubio.
 
 %prep
 %setup -q
+%patch0 -p1
 
 %build
+%{__libtoolize}
+%{__aclocal}
+%{__autoconf}
+%{__autoheader}
+%{__automake}
 %configure \
 	--enable-alsa \
 	--enable-jack
@@ -117,6 +136,9 @@ rm -rf $RPM_BUILD_ROOT
 %{__make} install \
 	DESTDIR=$RPM_BUILD_ROOT
 
+%py_postclean
+rm -f $RPM_BUILD_ROOT%{py_sitedir}/aubio/_aubiowrapper.{la,a}
+
 %clean
 rm -rf $RPM_BUILD_ROOT
 
@@ -126,29 +148,42 @@ rm -rf $RPM_BUILD_ROOT
 %files
 %defattr(644,root,root,755)
 %doc AUTHORS ChangeLog NEWS README THANKS TODO
-%attr(755,root,root) %{_libdir}/lib*.so.*.*.*
+%attr(755,root,root) %{_libdir}/libaubio.so.*.*.*
+%attr(755,root,root) %{_libdir}/libaubioext.so.*.*.*
 
 %files devel
 %defattr(644,root,root,755)
-%attr(755,root,root) %{_libdir}/lib*.so
-%{_libdir}/lib*.la
+%attr(755,root,root) %{_libdir}/libaubio.so
+%attr(755,root,root) %{_libdir}/libaubioext.so
+%{_libdir}/libaubio.la
+%{_libdir}/libaubioext.la
 %{_includedir}/%{name}
-%{_pkgconfigdir}/*.pc
+%{_pkgconfigdir}/aubio.pc
 
 %files static
 %defattr(644,root,root,755)
-%{_libdir}/lib*.a
+%{_libdir}/libaubio.a
+%{_libdir}/libaubioext.a
 
 %files progs
 %defattr(644,root,root,755)
 %attr(755,root,root) %{_bindir}/aubionotes
 %attr(755,root,root) %{_bindir}/aubioonset
 %attr(755,root,root) %{_bindir}/aubiotrack
-%if %{with python}
-%attr(755,root,root) %{_bindir}/aubiocut
-%attr(755,root,root) %{_bindir}/aubiopitch
-%endif
+%{_mandir}/man1/aubionotes.1*
+%{_mandir}/man1/aubioonset.1*
+%{_mandir}/man1/aubiotrack.1*
+%{_datadir}/sounds/aubio
 
+%if %{with python}
 %files -n python-aubio
 %defattr(644,root,root,755)
+%dir %{py_sitedir}/aubio
+%attr(755,root,root) %{py_sitedir}/aubio/_aubiowrapper.so
 %{py_sitescriptdir}/aubio
+# examples
+%attr(755,root,root) %{_bindir}/aubiocut
+%attr(755,root,root) %{_bindir}/aubiopitch
+%{_mandir}/man1/aubiocut.1*
+%{_mandir}/man1/aubiopitch.1*
+%endif
