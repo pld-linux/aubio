@@ -1,0 +1,20 @@
+--- aubio-0.3.2/python/aubio/Makefile.am.orig	2006-10-10 16:40:23.000000000 +0200
++++ aubio-0.3.2/python/aubio/Makefile.am	2007-06-24 17:03:32.342879923 +0200
+@@ -38,7 +38,7 @@
+ 	web/browser.py \
+ 	web/html.py
+ 
+-nodist_pkgpython_PYTHON = aubiowrapper.py _aubiowrapper.so
++nodist_pkgpython_PYTHON = aubiowrapper.py
+ 
+ _aubiowrapper.so: _aubiowrapper.la
+ 
+@@ -68,7 +68,7 @@
+ 	-L$(top_builddir)/ext -laubioext \
+ 	-L$(top_builddir)/src -laubio
+ 
+-pkgpython_LTLIBRARIES = _aubiowrapper.la
++pkgpyexec_LTLIBRARIES = _aubiowrapper.la
+ 
+ _aubiowrapper_la_LDFLAGS = -module -avoid-version $(AUBIO_LDFLAGS) 
+ _aubiowrapper_la_SOURCES = aubio_wrap.c
