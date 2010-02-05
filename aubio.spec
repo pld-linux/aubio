@@ -1,6 +1,4 @@
 # TODO:
-#	- create lash.spec (http://www.nongnu.org/lash) and
-#	  --enable-lash
 #	- package doc and create audacity-plugin
 #
 # Conditional build:
@@ -10,7 +8,7 @@ Summary:	aubio - library for audio labelling
 Summary(pl.UTF-8):	aubio - biblioteka do oznaczania dźwięku
 Name:		aubio
 Version:	0.3.2
-Release:	0.1
+Release:	1
 License:	GPL v2+
 Group:		Libraries
 Source0:	http://aubio.piem.org/pub/%{name}-%{version}.tar.gz
@@ -20,9 +18,10 @@ URL:		http://aubio.piem.org/
 BuildRequires:	alsa-lib-devel >= 0.9.0
 BuildRequires:	autoconf >= 2.50
 BuildRequires:	automake
+BuildRequires:	docbook-to-man
 BuildRequires:	fftw3-single-devel >= 3.0.0
 BuildRequires:	jack-audio-connection-kit-devel >= 0.15.0
-#BuildRequires:	lash-devel >= 0.5.0 (lash-1.0.pc)
+BuildRequires:	lash-devel >= 0.5.0
 BuildRequires:	libsamplerate-devel >= 0.0.15
 BuildRequires:	libsndfile-devel >= 1.0.4
 BuildRequires:	libtool
@@ -126,6 +125,7 @@ Wiązania Pythona do biblioteki aubio.
 %{__automake}
 %configure \
 	--enable-alsa \
+	--enable-lash \
 	--enable-jack
 
 %{__make}
@@ -150,6 +150,8 @@ rm -rf $RPM_BUILD_ROOT
 %doc AUTHORS ChangeLog NEWS README THANKS TODO
 %attr(755,root,root) %{_libdir}/libaubio.so.*.*.*
 %attr(755,root,root) %{_libdir}/libaubioext.so.*.*.*
+%attr(755,root,root) %ghost %{_libdir}/libaubio.so.2
+%attr(755,root,root) %ghost %{_libdir}/libaubioext.so.2
 
 %files devel
 %defattr(644,root,root,755)
