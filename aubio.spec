@@ -33,6 +33,7 @@ BuildRequires:	rpm-pythonprov
 BuildRequires:	rpmbuild(macros) >= 1.219
 BuildRequires:	swig-python
 %endif
+BuildRequires:	sed >= 4.0
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
 %description
@@ -116,6 +117,7 @@ Wiązania Pythona do biblioteki aubio.
 %prep
 %setup -q
 %patch0 -p1
+sed 's/\([A-Z_]\+\)+="\(.*\)"/\1="$\1 \2"/' -i configure.ac
 
 %build
 %{__libtoolize}
