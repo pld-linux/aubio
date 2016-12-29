@@ -7,7 +7,7 @@ Summary:	aubio - library for audio labelling
 Summary(pl.UTF-8):	aubio - biblioteka do oznaczania dźwięku
 Name:		aubio
 Version:	0.4.3
-Release:	1
+Release:	2
 License:	GPL v3+
 Group:		Libraries
 Source0:	http://aubio.piem.org/pub/%{name}-%{version}.tar.bz2
