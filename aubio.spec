@@ -7,11 +7,12 @@ Summary:	aubio - library for audio labelling
 Summary(pl.UTF-8):	aubio - biblioteka do oznaczania dźwięku
 Name:		aubio
 Version:	0.4.3
-Release:	2
+Release:	3
 License:	GPL v3+
 Group:		Libraries
 Source0:	http://aubio.piem.org/pub/%{name}-%{version}.tar.bz2
 # Source0-md5:	52a960cfc8a3e3125f3a258545d1c7e5
+Patch0:		ffmpeg4.patch
 URL:		http://aubio.piem.org/
 BuildRequires:	alsa-lib-devel >= 0.9.0
 BuildRequires:	doxygen
@@ -131,6 +132,7 @@ Wiązania Pythona do biblioteki aubio.
 
 %prep
 %setup -q
+%patch0 -p1
 
 %build
 export CC="%{__cc}"
