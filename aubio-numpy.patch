@@ -1,0 +1,30 @@
+--- aubio-0.4.9/python/ext/ufuncs.c.orig	2018-12-10 18:15:31.000000000 +0100
++++ aubio-0.4.9/python/ext/ufuncs.c	2025-03-22 22:36:13.914310126 +0100
+@@ -3,8 +3,13 @@
+ 
+ typedef smpl_t (*aubio_unary_func_t)(smpl_t input);
+ 
++#ifdef NPY_1_19_API_VERSION
++static void aubio_PyUFunc_d_d(char **args, npy_intp const *dimensions,
++                            npy_intp const *steps, void* data)
++#else
+ static void aubio_PyUFunc_d_d(char **args, npy_intp *dimensions,
+                             npy_intp* steps, void* data)
++#endif
+ {
+     npy_intp i;
+     npy_intp n = dimensions[0];
+@@ -22,8 +27,13 @@ static void aubio_PyUFunc_d_d(char **arg
+     }
+ }
+ 
++#ifdef NPY_1_19_API_VERSION
++static void aubio_PyUFunc_f_f_As_d_d(char **args, npy_intp const *dimensions,
++                            npy_intp const *steps, void* data)
++#else
+ static void aubio_PyUFunc_f_f_As_d_d(char **args, npy_intp *dimensions,
+                             npy_intp* steps, void* data)
++#endif
+ {
+     npy_intp i;
+     npy_intp n = dimensions[0];

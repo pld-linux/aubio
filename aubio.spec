@@ -21,6 +21,7 @@ Patch0:		ffmpeg6.patch
 Patch1:		%{name}-python39.patch
 Patch2:		%{name}-invalid-escape-sequence.patch
 Patch3:		%{name}-imp-removed.patch
+Patch4:		%{name}-numpy.patch
 URL:		https://aubio.org/
 # libavcodec >= 54.35.0, libavformat >= 52.3.0, libavutil >= 52.3.0, libswresample >= 1.2.0 || libavresample >= 1.0.1
 BuildRequires:	ffmpeg-devel >= 1.1
@@ -162,6 +163,7 @@ Wiązania Pythona 3 do biblioteki aubio.
 %patch -P 1 -p1
 %patch -P 2 -p1
 %patch -P 3 -p1
+%patch -P 4 -p1
 
 %build
 export CC="%{__cc}"
